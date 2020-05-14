@@ -1,0 +1,44 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: user-java-dep
+spec:
+  selector:
+    matchLabels:
+      app: user-java
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-java
+    spec:
+      containers:
+      - name: user-java
+        image: [edithere]/user-java:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_USER
+        - name: SQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_PASSWORD
+        - name: SQL_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_SERVER
+        - name: SQL_DBNAME
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_DBNAME
+        - name: PORT
+          value: "80"
+
+

@@ -1,0 +1,45 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: trips-dep
+spec:
+  selector:
+    matchLabels:
+      app: trips
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      containers:
+      - name: trips
+        image: [edithere]/trips:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_USER
+        - name: SQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_PASSWORD
+        - name: SQL_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_SERVER
+        - name: SQL_DBNAME
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_DBNAME
+        - name: PORT
+          value: "80"
+        - name: CONFIG_FLIES_PATH
+          value: "/secrets"
+

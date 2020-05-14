@@ -1,0 +1,54 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: poi-dep
+spec:
+  selector:
+    matchLabels:
+      app: poi
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      containers:
+      - name: poi
+        image: [edithere]/poi:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: SQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_USER
+        - name: SQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_PASSWORD
+        - name: SQL_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_SERVER
+        - name: SQL_DBNAME
+          valueFrom:
+            configMapKeyRef:
+              name: credsmap
+              key: SQL_DBNAME
+        - name: WEB_PORT
+          value: "80"
+        - name: WEB_SERVER_BASE_URI
+          value: "http://0.0.0.0"          
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        - name: CONFIG_FILES_PATH
+          value: "/secrets"
+          
+          
+
+
+
+

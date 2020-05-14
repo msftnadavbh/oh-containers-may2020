@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: credsmap
+data:
+  # property-like keys; each key maps to a simple value
+  SQL_SERVER: sqlservervdc8423.database.windows.net
+  SQL_USER: "sqladminvDc8423"
+  SQL_PASSWORD: "iK6za8Hf9"
+  SQL_DBNAME: "mydrivingDB"
+  
+

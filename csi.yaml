@@ -1,0 +1,38 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+kind: SecretProviderClass
+metadata:
+  name: kv
+spec:
+  provider: azure                   # accepted provider options: azure or vault
+  parameters:
+    usePodIdentity: "false"         # [OPTIONAL for Azure] if not provided, will default to "false"
+    useVMManagedIdentity: "false"   # [OPTIONAL available for version > 0.0.4] if not provided, will default to "false"
+    userAssignedIdentityID: "client_id"  # [OPTIONAL available for version > 0.0.4] use the client id to specify which user assigned managed identity to use. If using a user assigned identity as the VM's managed identity, then specify the identity's client id. If empty, then defaults to use the system assigned identity on the VM
+    keyvaultName: "[edithere]"          # the name of the KeyVault
+    cloudName: ""          # [OPTIONAL available for version > 0.0.4] if not provided, azure environment will default to AzurePublicCloud
+    objects:  |
+      array:
+        - |
+          objectName: SQLDBNAME
+          objectAlias: SQL_DBNAME     # [OPTIONAL available for version > 0.0.4] object alias
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: SQLUSER
+          objectAlias: SQL_USER     # [OPTIONAL available for version > 0.0.4] object alias
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: SQLPASSWORD
+          objectAlias: SQL_PASSWORD     # [OPTIONAL available for version > 0.0.4] object alias
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+        - |
+          objectName: SQLSERVER
+          objectAlias: SQL_SERVER     # [OPTIONAL available for version > 0.0.4] object alias
+          objectType: secret        # object types: secret, key or cert
+          objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
+    resourceGroup: "teamResources"            # [REQUIRED for version < 0.0.4] the resource group of the KeyVault
+    subscriptionId: "e9ebdd32-b7fa-4f0a-a24f-84f0abd95900"         # [REQUIRED for version < 0.0.4] the subscription ID of the KeyVault
+    tenantId: "d6135023-56cd-4f8d-9e4b-bdf44a027d79"                 # the tenant ID of the KeyVault
+

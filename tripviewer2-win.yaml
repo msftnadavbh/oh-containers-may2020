@@ -1,0 +1,30 @@
+
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: tripviewer2-win-dep
+spec:
+  selector:
+    matchLabels:
+      app: tripviewer2-win-dep
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tripviewer2-win-dep
+    spec:
+      containers:
+      - name: tripviewer2-win
+        image: [edithere]/tripviewer2:1.0
+        env:
+        - name: WCF_ENDPOINT
+          value: "http://10.0.153.10"
+        - name: TRIPS_API_ENDPOINT
+          value: "http://10.0.50.154"
+        - name: USERPROFILE_API_ENDPOINT
+          value: "http://10.0.137.22"
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        agentpool: nodepool1
+

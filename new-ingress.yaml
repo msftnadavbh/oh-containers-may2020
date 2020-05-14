@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /api/trips/
+          backend:
+            serviceName: trips-svc
+            servicePort: 80
+        - path: /api/user/
+          backend:
+            serviceName: userprofile-svc
+            servicePort: 80
+        - path: /
+          backend:
+            serviceName: tripviewer2-svc-ext
+            servicePort: 80
+        - path: /api/poi/
+          backend:
+            serviceName: poi-svc
+            servicePort: 80
+        - path: /api/user-java/
+          backend:
+            serviceName: userjava-svc
+            servicePort: 80
+
+
